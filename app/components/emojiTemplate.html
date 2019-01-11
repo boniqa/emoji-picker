@@ -1,0 +1,9 @@
+
+<div  class="emoji-picker">
+  
+  <span ng-repeat="(key, value) in $ctrl.emojiList" class="emoji" ng-click='$ctrl.pickEmoji(value.unicode_output)'>
+        {{$ctrl.convert(value.unicode_output)}}
+  </span>
+
+</div>
+

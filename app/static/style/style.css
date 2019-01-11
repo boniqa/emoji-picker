@@ -1,0 +1,104 @@
+body{
+  /* font-family: 'Lato', sans-serif !important; */
+  font-family: 'Open Sans', sans-serif !important;
+
+}
+
+.td-text-small{
+font-size: 12px;
+
+}
+.table{
+  margin-left: 5%;
+}
+.table thead th {
+
+  border-bottom: 0px !important;
+}
+
+.table td, .table th {
+
+  border-top: 0px !important;
+}
+
+.date-inline{
+
+}
+
+.panel-heading{
+  border: 1px solid #dee2e6;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.emoji {
+  font-size: 12px;
+  padding: 2px;
+}
+.panel-body{
+  border: 1px solid #dee2e6;
+}
+.emoji-picker{
+  /* width: 200px;  */
+  height: 200px; 
+  overflow: scroll;
+}
+.list-group-item{
+  display: inherit !important;
+}
+
+.pagination {
+  padding-left: 36% !important;
+  margin-top: 30px !important;
+  margin-bottom: 50px !important;
+}
+
+.panel-body .name-link a{
+  color: #7e7e7e !important;
+}
+
+li.ng-scope{
+
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+li.ng-scope a{
+  color: #7e7e7e !important;
+
+}
+
+.avatar{
+  height: auto;
+  width: 40px;;
+}
+
+.pagination .active a{
+  background-color: #d1d1d1 !important;
+  border-color: #7e7e7e !important;
+}
+
+p{
+font-size: 12px;
+
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
