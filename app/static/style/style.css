@@ -32,16 +32,29 @@ font-size: 12px;
 }
 
 .emoji {
-  font-size: 12px;
+  font-size: 18px;
   padding: 2px;
+}
+
+.emoji-search{
+   padding-bottom: 10px;
+   /* position: fixed; */
+   width: 200px;
+}
+.emoji-categories{
+  padding-bottom: 20px;
 }
 .panel-body{
   border: 1px solid #dee2e6;
 }
-.emoji-picker{
-  /* width: 200px;  */
-  height: 200px; 
+.emoji-dispay{
+  height: 150px;
   overflow: scroll;
+}
+.emoji-picker{
+  width: 200px; 
+  height: 250px; 
+  
 }
 .list-group-item{
   display: inherit !important;

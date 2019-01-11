@@ -110,11 +110,3 @@ function insertText(text, id) {
 }
 
 }]);
-// .controller('modalController', ['repo', '$uibModalInstance', '$scope', function( repo, $uibModalInstance, $scope){
-//     $scope.repo = repo;
-
-//       $scope.ok = function () {
-//         $uibModalInstance.close();
-//       };
-
-// }]);

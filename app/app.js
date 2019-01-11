@@ -8,9 +8,8 @@ angular.module('gitApp').config(['$stateProvider', '$urlRouterProvider', functio
     .state('home', {
       url: '/',
       controller: 'gitHubController',
-      templateUrl: 'templates/home.html',
+      templateUrl: 'templates/home.html'
      
-     })
-    ;
+     });
      
   }]);

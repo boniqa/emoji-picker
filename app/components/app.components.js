@@ -1,11 +1,15 @@
+// import { log } from "util";
+
 angular.module('gitApp')
 .component('emoji', {
-    controller: [ "emojiService",
+    controller: [ "emojiService", "categoriesService",
         
-        function (emojiService){
+        function (emojiService, categoriesService){
             var ctrl = this;
 
             ctrl.emojiList = emojiService.emojiList;
+            ctrl.emojiCategories = categoriesService.emojiCategories;
+            
             ctrl.convert= function convert(unicode) {
                 if(unicode.indexOf("-") > -1) {
                     var parts = [];
