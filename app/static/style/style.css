@@ -32,7 +32,7 @@ font-size: 12px;
 }
 
 .emoji {
-  font-size: 18px;
+  font-size: 14px;
   padding: 2px;
 }
 
@@ -42,18 +42,30 @@ font-size: 12px;
    width: 200px;
 }
 .emoji-categories{
-  padding-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+.emoji-categories span {
+  cursor: pointer;
+}
+.recently-used{
+  cursor: pointer;
+  padding-bottom: 10px;
 }
 .panel-body{
   border: 1px solid #dee2e6;
 }
 .emoji-dispay{
-  height: 150px;
+  height: 200px;
   overflow: scroll;
 }
+
+.emoji-dispay span {
+  cursor: pointer;
+}
 .emoji-picker{
-  width: 200px; 
-  height: 250px; 
+  width: 250px; 
+  height: 350px; 
   
 }
 .list-group-item{

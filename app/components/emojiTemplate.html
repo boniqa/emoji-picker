@@ -1,25 +1,29 @@
 
 <div  class="emoji-picker">
+
   <div class="emoji-search">
       <input ng-model="$ctrl.searchText.keyWords" placeholder="Find an emoji..." class="form-control input-sm ">
-
-
   </div>
+
+  <div class="recently-used">
+    <p>Recently used</p>
+      <span ng-repeat="emoji in $ctrl.recentlyUsedEmojis" class= "emoji" ng-click="$ctrl.pickEmoji(emoji)">
+        {{$ctrl.convert(emoji)}}
+      </span>
+  </div>
+
   <div class="emoji-categories">
-   
-    <span ng-repeat="cat in $ctrl.emojiCategories"  ng-click="$ctrl.searchText.category= cat.category; $ctrl.searchText.keyWords ='' ">
-      {{$ctrl.convert(cat.icon)}}
-    </span>
-    <span ng-click="$ctrl.searchText.category = ''" > All </span>
+      <p>Categories</p>
+      <span ng-repeat="cat in $ctrl.emojiCategories" class="emoji" ng-click="$ctrl.searchText.category= cat.category; $ctrl.searchText.keyWords ='' ">
+        {{$ctrl.convert(cat.icon)}}
+      </span>
+      <span ng-click="$ctrl.searchText.category = ''" > All </span>
   </div>
-  <div class="emoji-dispay">
 
+  <div class="emoji-dispay">
       <span ng-repeat="emoji in $ctrl.emojiList | filter: $ctrl.searchText" class="emoji" ng-click='$ctrl.pickEmoji(emoji.output)'>
           {{$ctrl.convert(emoji.output)}}
     </span>
-  </div>
-  <div class="categories">
-    
   </div>
 
 

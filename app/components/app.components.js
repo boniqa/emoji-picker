@@ -2,10 +2,30 @@
 
 angular.module('gitApp')
 .component('emoji', {
-    controller: [ "emojiService", "categoriesService",
+    controller: [ "emojiService", "categoriesService", "localStorageService",
         
-        function (emojiService, categoriesService){
+        function (emojiService, categoriesService, localStorageService){
+            var toSaveEmojis = [];
             var ctrl = this;
+            ctrl.recentlyUsedEmojis = [];
+            
+            ctrl.$onInit = function(){
+                
+                ctrl.recentlyUsedEmojis = localStorageService.getObject("recent-emojis") || [];
+                toSaveEmojis = localStorageService.getObject("recent-emojis") || [];
+                // ctrl.recentlyUsedEmojis = [];
+                // localStorageService.setObject("recent-emojis", ctrl.recentlyUsedEmojis);
+                console.log('resent emojis uploaded', ctrl.recentlyUsedEmojis);
+                
+            };
+
+            ctrl.$onDestroy = function(){
+              
+                
+                localStorageService.setObject("recent-emojis", toSaveEmojis.slice(0,9));
+                console.log('Saved!', toSaveEmojis);           
+
+            };
 
             ctrl.emojiList = emojiService.emojiList;
             ctrl.emojiCategories = categoriesService.emojiCategories;
@@ -40,11 +60,21 @@ angular.module('gitApp')
                     }
                 }
             };
+
             ctrl.pickEmoji = function(code){
                 var emoji = ctrl.convert(code);
+                
+                if (!toSaveEmojis.includes(code)){
+                    toSaveEmojis.unshift(code);
+                }
+                // console.log(ctrl.recentlyUsedEmojis);
                 insertText(emoji, "emojiInput");
+                //add to array recently used
+                
+                
             };
 
+         
             function insertText(text, id) {
 
                 var input = document.getElementById(id);
