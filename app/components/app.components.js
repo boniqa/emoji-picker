@@ -2,12 +2,18 @@
 
 angular.module('gitApp')
 .component('emoji', {
-    controller: [ "emojiService", "categoriesService", "localStorageService",
+    controller: [ "emojiService", "categoriesService", "localStorageService", "$scope",
         
-        function (emojiService, categoriesService, localStorageService){
+        function (emojiService, categoriesService, localStorageService, $scope){
             var toSaveEmojis = [];
             var ctrl = this;
             ctrl.recentlyUsedEmojis = [];
+
+            $scope.busy = true;
+            $scope.allData =[];
+            // $scope.emojiList = emojiService.emojiList;
+            var page = 0;
+            var step = 8;
             
             ctrl.$onInit = function(){
                 
@@ -28,6 +34,7 @@ angular.module('gitApp')
             };
 
             ctrl.emojiList = emojiService.emojiList;
+            
             ctrl.emojiCategories = categoriesService.emojiCategories;
             
             ctrl.convert= function convert(unicode) {
@@ -74,12 +81,18 @@ angular.module('gitApp')
                 
             };
 
-            ctrl.addMoreItems = function() {
-                var last = ctrl.emojiList[ctrl.emojiList.length - 1];
-                for(var i = 1; i <= 8; i++) {
-                  ctrl.emojiList.push(last + i);
+        
+            ctrl.images = ctrl.emojiList.slice(0,25);
+        
+            ctrl.loadMore = function() {
+                // var next = $scope.images[$scope.images.length + 1];
+                //i ->ile dodaje
+                for(var i = 1; i <= 5; i++) {
+                    ctrl.images.push(ctrl.emojiList[ctrl.images.length + 1]);
                 }
               };
+            
+
          
             function insertText(text, id) {
 

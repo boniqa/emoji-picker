@@ -17,10 +17,12 @@
   "dependencies": {
     "angular-ui-router": "^1.0.20",
     "bootstrap": "^3.3.7",
+    "jquery": "^3.3.1",
     "angular": "^1.7.5",
     "angular-animate": "^1.7.5",
     "angular-bootstrap": "^2.5.0",
     "emojione": "^4.0.0",
     "ngInfiniteScroll": "1.0.0"
+    
   }
 }
