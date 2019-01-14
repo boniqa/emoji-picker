@@ -80,14 +80,13 @@ angular.module('gitApp')
                 
                 
             };
+    
+            ctrl.images = ctrl.emojiList.slice(0,200);            
 
-        
-            ctrl.images = ctrl.emojiList.slice(0,25);
-        
             ctrl.loadMore = function() {
                 // var next = $scope.images[$scope.images.length + 1];
                 //i ->ile dodaje
-                for(var i = 1; i <= 5; i++) {
+                for(var i = 1; i <= 100; i++) {
                     ctrl.images.push(ctrl.emojiList[ctrl.images.length + 1]);
                 }
               };

@@ -20,16 +20,16 @@
       <span ng-click="$ctrl.searchText.category = ''" > All </span>
   </div>
 
-<div class="emoji-display">
 
-    <div infinite-scroll='$ctrl.loadMore()' infinite-scroll-distance='0.1' infinite-scroll-container= '".emoji-display"' ng-click="$ctrl.pickEmoji(image.output)">
-        <span ng-repeat='image in $ctrl.images'>
-          {{$ctrl.convert(image.output)}}</br>
-        </span>
+  <div style="overflow:scroll;min-height:200px;max-height:200px;" id="parent">
+    <div infinite-scroll-container="'#parent'" infinite-scroll="$ctrl.loadMore()" infinite-scroll-distance="0" infinite-scroll-parent="true">
+      <span ng-repeat='image in $ctrl.images' ng-click="$ctrl.pickEmoji(image.output)">
+        {{$ctrl.convert(image.output)}}
+      </span>
+  </div>
+</div>  
+
   
-      </div>
-</div>
- 
 
   <!-- <div class="emoji-dispay" infinite-scroll='loadMore()'  infinite-scroll-disabled="busy || noMoreData" infinite-scroll-distance='0.1'>
     <span ng-repeat="emoji in images " class="emoji" >

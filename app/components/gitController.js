@@ -1,6 +1,7 @@
 angular.module('gitApp').controller('gitHubController', ['$scope', '$uibModal', '$filter','emojiService', function( $scope, $uibModal,  $filter,  emojiService) {
 
 
+
 //emmoji controller
 
 $scope.popoverEmoji = {
