@@ -20,6 +20,7 @@
     "angular": "^1.7.5",
     "angular-animate": "^1.7.5",
     "angular-bootstrap": "^2.5.0",
-    "emojione": "^4.0.0"
+    "emojione": "^4.0.0",
+    "ngInfiniteScroll": "1.0.0"
   }
 }

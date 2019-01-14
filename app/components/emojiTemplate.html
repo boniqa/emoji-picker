@@ -20,7 +20,7 @@
       <span ng-click="$ctrl.searchText.category = ''" > All </span>
   </div>
 
-  <div class="emoji-dispay">
+  <div class="emoji-dispay" infinite-scroll='$ctrl.addMoreItems()' infinite-scroll-distance='2'>
       <span ng-repeat="emoji in $ctrl.emojiList | filter: $ctrl.searchText" class="emoji" ng-click='$ctrl.pickEmoji(emoji.output)'>
           {{$ctrl.convert(emoji.output)}}
     </span>

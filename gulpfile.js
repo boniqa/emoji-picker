@@ -21,7 +21,9 @@ gulp.task('vendor', function () {
         'bower_components/angular-ui-router/release/angular-ui-router.js',
         'bower_components/angular-animate/angular-animate.js',
         'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-        'app/assets/js/ng-table.min.js'
+        'app/assets/js/ng-table.min.js',
+        'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js'
+        
         
         
     ])

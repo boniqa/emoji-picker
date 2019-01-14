@@ -74,6 +74,12 @@ angular.module('gitApp')
                 
             };
 
+            ctrl.addMoreItems = function() {
+                var last = ctrl.emojiList[ctrl.emojiList.length - 1];
+                for(var i = 1; i <= 8; i++) {
+                  ctrl.emojiList.push(last + i);
+                }
+              };
          
             function insertText(text, id) {
 

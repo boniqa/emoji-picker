@@ -1,4 +1,4 @@
-angular.module( 'gitApp', ['ui.router', 'ngAnimate', 'ui.bootstrap']);
+angular.module( 'gitApp', ['ui.router', 'ngAnimate', 'ui.bootstrap','infinite-scroll']);
 
 angular.module('gitApp').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
