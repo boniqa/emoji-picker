@@ -1,35 +1,25 @@
-// import { log } from "util";
-
 angular.module('gitApp')
 .component('emoji', {
-    controller: [ "emojiService", "categoriesService", "localStorageService", "$scope",
+    controller: [ "emojiService", "categoriesService", "localStorageService", 
         
-        function (emojiService, categoriesService, localStorageService, $scope){
+        function (emojiService, categoriesService, localStorageService){
             var toSaveEmojis = [];
             var ctrl = this;
             ctrl.recentlyUsedEmojis = [];
-
-            $scope.busy = true;
-            $scope.allData =[];
-            // $scope.emojiList = emojiService.emojiList;
-            var page = 0;
-            var step = 8;
             
             ctrl.$onInit = function(){
                 
                 ctrl.recentlyUsedEmojis = localStorageService.getObject("recent-emojis") || [];
                 toSaveEmojis = localStorageService.getObject("recent-emojis") || [];
-                // ctrl.recentlyUsedEmojis = [];
-                // localStorageService.setObject("recent-emojis", ctrl.recentlyUsedEmojis);
-                console.log('resent emojis uploaded', ctrl.recentlyUsedEmojis);
                 
+                // console.log('resent emojis uploaded', ctrl.recentlyUsedEmojis);
             };
 
             ctrl.$onDestroy = function(){
               
                 
                 localStorageService.setObject("recent-emojis", toSaveEmojis.slice(0,9));
-                console.log('Saved!', toSaveEmojis);           
+                // console.log('Saved!', toSaveEmojis);           
 
             };
 
@@ -75,22 +65,20 @@ angular.module('gitApp')
                     toSaveEmojis.unshift(code);
                 }
                 // console.log(ctrl.recentlyUsedEmojis);
-                insertText(emoji, "emojiInput");
-                //add to array recently used
-                
+                insertText(emoji, "emojiInput");                
                 
             };
     
-            ctrl.images = ctrl.emojiList.slice(0,200);            
+
+            ctrl.emojiToDisplay = 200;       
 
             ctrl.loadMore = function() {
-                // var next = $scope.images[$scope.images.length + 1];
-                //i ->ile dodaje
-                for(var i = 1; i <= 100; i++) {
-                    ctrl.images.push(ctrl.emojiList[ctrl.images.length + 1]);
+                if (ctrl.emojiToDisplay + 100 < ctrl.emojiList.length) {
+                    ctrl.emojiToDisplay += 100;
+                } else {
+                    ctrl.emojiToDisplay = ctrl.emojiList.length;
                 }
               };
-            
 
          
             function insertText(text, id) {
