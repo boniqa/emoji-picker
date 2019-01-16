@@ -1,6 +1,36 @@
 angular.module('gitApp').factory('emojiService', [function(){
 
- 
+ var convert = function convert(unicode) {
+  if(unicode.indexOf("-") > -1) {
+      var parts = [];
+      var s = unicode.split('-');
+      for(var i = 0; i < s.length; i++) {
+          var part = parseInt(s[i], 16);
+          if (part >= 0x10000 && part <= 0x10FFFF) {
+              var hi = Math.floor((part - 0x10000) / 0x400) + 0xD800;
+              var lo = ((part - 0x10000) % 0x400) + 0xDC00;
+              part = (String.fromCharCode(hi) + String.fromCharCode(lo));
+          }
+          else {
+              part = String.fromCharCode(part);
+          }
+          parts.push(part);
+      }
+      return parts.join('');
+  }
+  else {
+      var s = parseInt(unicode, 16);
+      if (s >= 0x10000 && s <= 0x10FFFF) {
+          var hi = Math.floor((s - 0x10000) / 0x400) + 0xD800;
+          var lo = ((s - 0x10000) % 0x400) + 0xDC00;
+          return (String.fromCharCode(hi) + String.fromCharCode(lo));
+      }
+      else {
+          return String.fromCharCode(s);
+      }
+  }
+};
+
  var emojiList = [
   {
     "name": "exclamation question mark",
@@ -261,16 +291,6 @@ angular.module('gitApp').factory('emojiService', [function(){
       "wheel"
     ],
     "output": "2638"
-  },
-  {
-    "name": "frowning face",
-    "category": "people",
-    "shortname": ":frowning2:",
-    "keyWords": [
-      "face",
-      "frown"
-    ],
-    "output": "2639"
   },
   {
     "name": "female sign",
@@ -12080,18 +12100,6 @@ angular.module('gitApp').factory('emojiService', [function(){
       "rolling"
     ],
     "output": "1f923"
-  },
-  {
-    "name": "smiling face",
-    "category": "people",
-    "shortname": ":relaxed:",
-    "keyWords": [
-      "face",
-      "outlined",
-      "relaxed",
-      "smile"
-    ],
-    "output": "263a"
   },
   {
     "name": "smiling face with smiling eyes",
@@ -31089,7 +31097,8 @@ angular.module('gitApp').factory('emojiService', [function(){
 ];
 
     var factory = {
-        emojiList: emojiList
+        emojiList: emojiList,
+        convert: convert
     };
 
     return factory;

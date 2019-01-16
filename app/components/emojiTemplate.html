@@ -14,20 +14,19 @@
 
   <div class="emoji-categories">
       <p>Categories</p>
-      <span ng-repeat="cat in $ctrl.emojiCategories" class="emoji" ng-click="$ctrl.searchText.category= cat.category; $ctrl.searchText.keyWords ='' ;  $ctrl.searchText.shortname ='' ">
+      <span ng-repeat="cat in $ctrl.emojiCategories" class="emoji emoji-categories" ng-class="{'picked-category': $ctrl.toggle[cat.category]}" ng-click=" $ctrl.pickCategory(cat.category)">
         {{$ctrl.convert(cat.icon)}}
       </span>
-      <span ng-click="$ctrl.searchText.category = ''; $ctrl.searchText.shortname = ''" > All </span>
+      <span ng-click="$ctrl.searchText.category = ''; $ctrl.searchText.shortname = ''; $ctrl.unPick()" > All </span>
   </div>
 
-  <div class="emoji-skin-tones">
+  <!-- <div class="emoji-skin-tones">
       <p>Skin tones</p>
       <span ng-repeat="tone in $ctrl.tonesCategories" class="emoji" ng-click="$ctrl.searchText.shortname= tone.name; $ctrl.searchText.keyWords ='' ">
         {{$ctrl.convert(tone.icon)}}
       </span>
-      <!-- <span ng-click="$ctrl.searchText.shortname = ''" > All </span> -->
-  </div>
-
+      <span ng-click="$ctrl.searchText.shortname = ''" > All </span>
+  </div> -->
 
   <div id="parent" class="emoji-display">
     <div infinite-scroll-container="'#parent'" infinite-scroll="$ctrl.loadMore()" infinite-scroll-disabled= "stopLoading" infinite-scroll-distance="0" infinite-scroll-parent="true" >
