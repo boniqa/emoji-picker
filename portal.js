@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
-app.set('port', (process.env.PORT || 6969));
+app.set('port', (process.env.PORT || 6900));
 
 app.use(express.static(__dirname + '/app'));
 

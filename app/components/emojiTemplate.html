@@ -1,9 +1,40 @@
 
 <div  class="emoji-picker">
-  
-  <span ng-repeat="(key, value) in $ctrl.emojiList" class="emoji" ng-click='$ctrl.pickEmoji(value.unicode_output)'>
-        {{$ctrl.convert(value.unicode_output)}}
-  </span>
+
+  <div class="emoji-search">
+      <input ng-model="$ctrl.searchText.keyWords" placeholder="Find an emoji..." class="form-control input-sm ">
+  </div>
+
+  <div class="recently-used" ng-if="$ctrl.recently">
+    <p>Recently used</p>
+      <span ng-repeat="emoji in $ctrl.recentlyUsedEmojis | limitTo:10" class= "emoji" ng-click="$ctrl.pickEmoji(emoji)">
+        {{$ctrl.convert(emoji)}}
+      </span>
+  </div>
+
+  <div class="emoji-categories">
+      <p>Categories</p>
+      <span ng-repeat="cat in $ctrl.emojiCategories" class="emoji emoji-categories" ng-class="{'picked-category': $ctrl.toggle[cat.category]}" ng-click=" $ctrl.pickCategory(cat.category)">
+        {{$ctrl.convert(cat.icon)}}
+      </span>
+      <span ng-click="$ctrl.searchText.category = ''; $ctrl.searchText.shortname = ''; $ctrl.unPick()" > All </span>
+  </div>
+
+  <!-- <div class="emoji-skin-tones">
+      <p>Skin tones</p>
+      <span ng-repeat="tone in $ctrl.tonesCategories" class="emoji" ng-click="$ctrl.searchText.shortname= tone.name; $ctrl.searchText.keyWords ='' ">
+        {{$ctrl.convert(tone.icon)}}
+      </span>
+      <span ng-click="$ctrl.searchText.shortname = ''" > All </span>
+  </div> -->
+
+  <div id="parent" class="emoji-display">
+    <div infinite-scroll-container="'#parent'" infinite-scroll="$ctrl.loadMore()" infinite-scroll-disabled= "stopLoading" infinite-scroll-distance="0" infinite-scroll-parent="true" >
+      <span ng-repeat="emoji in filteredArray = $ctrl.emojiList | filter:$ctrl.searchText | limitTo:$ctrl.emojiToDisplay | filter: '!'+('skin tone')" title="{{emoji.shortname}}" class="emoji" ng-click="$ctrl.pickEmoji(emoji.output)">
+        {{$ctrl.convert(emoji.output)}}
+      </span>
+  </div>
+</div>  
 
 </div>
 

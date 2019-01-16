@@ -1,76 +1,15 @@
-angular.module('gitApp').controller('gitHubController', ['$scope', '$uibModal', '$filter','emojiService', function( $scope, $uibModal,  $filter,  emojiService) {
-
-
-//emmoji controller
+angular.module('gitApp').controller('gitHubController', ['$scope', function($scope) {
 
 $scope.popoverEmoji = {
-    content: 'Hello, World!',
-    templateUrl: 'components/emojiPopover.html',
-    title1: 'New Title',
-    title2: 'New Title'
+	templateUrl: 'components/emojiPopover.html',
+	isOpen: false
   };
 
-// $scope.emojiList = function(){
-    
-//     // not working
-   
-//     var emojiList = Object.values(emojiService.emojiList).map(function(emoji){
-//         return emoji[unicode_output];
-//     });
-
-    
-   
-
-//     console.log(emojiList);
-    
-    
-//     return emojiList;
-// }
-
-// $scope.emojiList = emojiService.emojiList;
-
-// $scope.emojiNames = $scope.emojiList();
-
-
-
-$scope.convert = function(unicode) {
-	if(unicode.indexOf("-") > -1) {
-		var parts = [];
-		var s = unicode.split('-');
-		for(var i = 0; i < s.length; i++) {
-			var part = parseInt(s[i], 16);
-			if (part >= 0x10000 && part <= 0x10FFFF) {
-				var hi = Math.floor((part - 0x10000) / 0x400) + 0xD800;
-				var lo = ((part - 0x10000) % 0x400) + 0xDC00;
-				part = (String.fromCharCode(hi) + String.fromCharCode(lo));
-			}
-			else {
-				part = String.fromCharCode(part);
-			}
-			parts.push(part);
-		}
-		return parts.join('');
-	}
-	else {
-		var s = parseInt(unicode, 16);
-		if (s >= 0x10000 && s <= 0x10FFFF) {
-			var hi = Math.floor((s - 0x10000) / 0x400) + 0xD800;
-			var lo = ((s - 0x10000) % 0x400) + 0xDC00;
-			return (String.fromCharCode(hi) + String.fromCharCode(lo));
-		}
-		else {
-			return String.fromCharCode(s);
-		}
-	}
-};
-
-$scope.pickEmoji = function(code){
-    var emoji = $scope.convert(code);
-    insertText(emoji, "emojiInput");
-};
-// text - the text to add
-// id - the id of the textarea
-function insertText(text, id) {
+  $scope.cb = function(emoji){
+	    insertText(emoji, "emojiInput");
+  }
+  
+  function insertText(text, id) {
 
 	var input = document.getElementById(id);
 	if (input === undefined) { return; }
@@ -108,13 +47,4 @@ function insertText(text, id) {
 	input.scrollTop = scrollPos;
 	angular.element(input).trigger('input');
 }
-
 }]);
-// .controller('modalController', ['repo', '$uibModalInstance', '$scope', function( repo, $uibModalInstance, $scope){
-//     $scope.repo = repo;
-
-//       $scope.ok = function () {
-//         $uibModalInstance.close();
-//       };
-
-// }]);

@@ -1,4 +1,4 @@
-angular.module( 'gitApp', ['ui.router', 'ngAnimate', 'ui.bootstrap']);
+angular.module( 'gitApp', ['ui.router', 'ngAnimate', 'ui.bootstrap','infinite-scroll']);
 
 angular.module('gitApp').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
@@ -8,9 +8,8 @@ angular.module('gitApp').config(['$stateProvider', '$urlRouterProvider', functio
     .state('home', {
       url: '/',
       controller: 'gitHubController',
-      templateUrl: 'templates/home.html',
+      templateUrl: 'templates/home.html'
      
-     })
-    ;
+     });
      
   }]);

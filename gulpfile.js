@@ -17,13 +17,13 @@ gulp.task('app', function(){
 
 gulp.task('vendor', function () {
     return gulp.src([
+        'bower_components/jquery/dist/jquery.js',
         'bower_components/angular/angular.js',
         'bower_components/angular-ui-router/release/angular-ui-router.js',
         'bower_components/angular-animate/angular-animate.js',
         'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-        'app/assets/js/ng-table.min.js'
-        
-        
+        'app/assets/js/ng-table.min.js',
+        'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.js'            
     ])
     .pipe(concat('vendor.js', { newLine: ';' }))
     .pipe(gulp.dest('app/build'))

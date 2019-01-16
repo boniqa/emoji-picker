@@ -1,84 +1,82 @@
 angular.module('gitApp')
 .component('emoji', {
-    controller: [ "emojiService",
+    bindings: {
+        callback: '&'
+     },
+    controller: [ "emojiService", "categoriesService", "localStorageService", 
         
-        function (emojiService){
+        function (emojiService, categoriesService, localStorageService){
+            
             var ctrl = this;
+            ctrl.recentlyUsedEmojis = [];
+            ctrl.recently = true;
+            ctrl.toggle = {};
+            ctrl.searchText = {};
+            ctrl.$onInit = function(){
+                
+                ctrl.recentlyUsedEmojis = localStorageService.getObject("recent-emojis") || [];
+
+                if (ctrl.recentlyUsedEmojis < 1 || ctrl.recentlyUsedEmojis == undefined){
+                    ctrl.recently = false;
+                }
+                // toSaveEmojis = localStorageService.getObject("recent-emojis") || [];
+                
+                // console.log('resent emojis uploaded', ctrl.recentlyUsedEmojis);
+            };
+
+            ctrl.$onDestroy = function(){
+              
+                localStorageService.setObject("recent-emojis", ctrl.recentlyUsedEmojis.slice(0,9));
+                // console.log('Saved!', toSaveEmojis);           
+
+            };
 
             ctrl.emojiList = emojiService.emojiList;
-            ctrl.convert= function convert(unicode) {
-                if(unicode.indexOf("-") > -1) {
-                    var parts = [];
-                    var s = unicode.split('-');
-                    for(var i = 0; i < s.length; i++) {
-                        var part = parseInt(s[i], 16);
-                        if (part >= 0x10000 && part <= 0x10FFFF) {
-                            var hi = Math.floor((part - 0x10000) / 0x400) + 0xD800;
-                            var lo = ((part - 0x10000) % 0x400) + 0xDC00;
-                            part = (String.fromCharCode(hi) + String.fromCharCode(lo));
-                        }
-                        else {
-                            part = String.fromCharCode(part);
-                        }
-                        parts.push(part);
-                    }
-                    return parts.join('');
+            
+            ctrl.emojiCategories = categoriesService.emojiCategories;
+            // ctrl.tonesCategories = categoriesService.tonesCategories;
+           
+            ctrl.convert = function(code){
+                return emojiService.convert(code);
+            }
+
+            ctrl.unPick = function(){
+                for(var key in ctrl.toggle){
+                    ctrl.toggle[key] = false;
                 }
-                else {
-                    var s = parseInt(unicode, 16);
-                    if (s >= 0x10000 && s <= 0x10FFFF) {
-                        var hi = Math.floor((s - 0x10000) / 0x400) + 0xD800;
-                        var lo = ((s - 0x10000) % 0x400) + 0xDC00;
-                        return (String.fromCharCode(hi) + String.fromCharCode(lo));
-                    }
-                    else {
-                        return String.fromCharCode(s);
-                    }
-                }
-            };
+            }
+
+            ctrl.pickCategory = function(category){
+                ctrl.searchText.category = category; 
+                ctrl.searchText.keyWords ='' ;  
+                ctrl.searchText.shortname ='';
+                ctrl.unPick();
+                ctrl.toggle[category] = true;
+            }
+
             ctrl.pickEmoji = function(code){
                 var emoji = ctrl.convert(code);
-                insertText(emoji, "emojiInput");
+                
+                if (!ctrl.recentlyUsedEmojis.includes(code)){
+                    ctrl.recentlyUsedEmojis.unshift(code);
+                }
+                
+                    ctrl.callback({value: emoji});   
+                
             };
 
-            function insertText(text, id) {
+            ctrl.emojiToDisplay = 200;       
 
-                var input = document.getElementById(id);
-                if (input === undefined) { return; }
-            
-                var scrollPos = input.scrollTop;
-                var pos = 0;
-                var browser = ((input.selectionStart || input.selectionStart == "0") ?
-                               "ff" : (document.selection ? "ie" : false));
-                if (browser == "ie") {
-                    input.focus();
-                    var range = document.selection.createRange();
-                    range.moveStart("character", -input.value.length);
-                    pos = range.text.length;
+            ctrl.loadMore = function() {
+                if (ctrl.emojiToDisplay + 100 < ctrl.emojiList.length) {
+                    ctrl.emojiToDisplay += 100;
+                } else {
+                    ctrl.emojiToDisplay = ctrl.emojiList.length;
                 }
-                else if (browser == "ff") {
-                    pos = input.selectionStart;
-                }
-                var front = (input.value).substring(0, pos);
-                var back = (input.value).substring(pos, input.value.length);
-                input.value = front + text + back;
-                pos = pos + text.length;
-                if (browser == "ie") {
-                    input.focus();
-                    var range = document.selection.createRange();
-                    range.moveStart("character", -input.value.length);
-                    range.moveStart("character", pos);
-                    range.moveEnd("character", 0);
-                    range.select();
-                }
-                else if (browser == "ff") {
-                    input.selectionStart = pos;
-                    input.selectionEnd = pos;
-                    input.focus();
-                }
-                input.scrollTop = scrollPos;
-                angular.element(input).trigger('input');
-            }
+              };
+
+         
+          
 
         }
     

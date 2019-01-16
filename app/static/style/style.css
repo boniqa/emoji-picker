@@ -3,45 +3,58 @@ body{
   font-family: 'Open Sans', sans-serif !important;
 
 }
-
-.td-text-small{
-font-size: 12px;
-
-}
-.table{
-  margin-left: 5%;
-}
-.table thead th {
-
-  border-bottom: 0px !important;
-}
-
-.table td, .table th {
-
-  border-top: 0px !important;
-}
-
-.date-inline{
-
-}
-
-.panel-heading{
-  border: 1px solid #dee2e6;
-  padding: 20px;
-  background-color: #f8f9fa;
-}
-
 .emoji {
-  font-size: 12px;
-  padding: 2px;
+  font-size: 14px;
+  /* padding: 2px; */
+  cursor: pointer;
+  display: inline-block;
+  width: 20px;
 }
-.panel-body{
-  border: 1px solid #dee2e6;
+.smiley{
+  width: 20px;
+  height: auto;
+  cursor: pointer;
 }
+#parent{
+  margin-top: 10px;
+  overflow-y:scroll;
+  min-height:160px;
+  max-height:200px;
+}
+.emoji-search{
+   padding-bottom: 10px;
+   /* position: fixed; */
+   width: 200px;
+}
+.emoji-categories{
+  /* padding: 5px; */
+  margin: 2px;
+}
+.picked-category{
+  border-bottom: 1.5px solid #acacac;
+ }
+
+
+
+.emoji-categories span {
+  cursor: pointer;
+}
+.recently-used{
+  cursor: pointer;
+  padding-bottom: 10px;
+}
+
+.emoji-display{
+  height: 150px;
+  margin-bottom: 20px;
+  /* overflow-y: scroll; */
+}
+
 .emoji-picker{
-  /* width: 200px;  */
-  height: 200px; 
-  overflow: scroll;
+  width: 230px; 
+  /* height: 350px;  */
+  margin: 10px;
+  
 }
 .list-group-item{
   display: inherit !important;
@@ -51,10 +64,6 @@ font-size: 12px;
   padding-left: 36% !important;
   margin-top: 30px !important;
   margin-bottom: 50px !important;
-}
-
-.panel-body .name-link a{
-  color: #7e7e7e !important;
 }
 
 li.ng-scope{
