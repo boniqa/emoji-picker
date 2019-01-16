@@ -31,7 +31,9 @@ angular.module('gitApp').factory('emojiService', [function(){
   }
 };
 
- var emojiList = [
+var unsupported = ["1f94e", "1f94d", "1f94f", "1f6f9", "1f9e9", "1f9ed", "1f9f2", "1f9ef", "1f9ff", "1f9f1", "1f9f0", "1f9ea", "1f9eb", "1f9ec", "1f9ee", "1f9f9", "1f9fa", "1f9fb", "1f9fc", "1f9fd", "1f9f4", "1f9f5", "1f9f6", "1f9f8", "1f9e7", "1f9fe", "1f9f7", "1f99d", "1f998", "1f9a1", "1f9a2", "1f99c", "1f99a", "1f99f", "1f9a0", "1f99e", "1f99b", "1f999", "1f96d", "1f96c", "1f96f", "1f96e", "1f9c1", "1f9c2", "1f970", "1f973", "1f975", "1f976", "1f97a", "1f974", "1f9b5", "1f9b6", "1f9b4", "1f9b7", "1f469-200d-1f9b0", "1f469-200d-1f9b0", "1f468-200d-1f9b0", "1f468-200d-1f9b0", "1f469-200d-1f9b1", "1f469-200d-1f9b1", "1f468-200d-1f9b1", "1f468-200d-1f9b1", "1f469-200d-1f9b3", "1f469-200d-1f9b3", "1f468-200d-1f9b3", "1f468-200d-1f9b3", "1f469-200d-1f9b2", "1f469-200d-1f9b2", "1f468-200d-1f9b2", "1f468-200d-1f9b2", "1f9b8", "1f9b8-200d-2640-fe0f", "1f9b8-200d-2642-fe0f", "1f9b9", "1f9b9-200d-2640-fe0f", "1f9b9-200d-2642-fe0f", "1f97c", "1f97e", "1f97f", "1f97d", "1f9b0", "1f9b1", "1f9b3", "1f9b2", "1f9f3", "1f9e8"];
+
+ var _emojiList = [
   {
     "name": "exclamation question mark",
     "category": "symbols",
@@ -31095,6 +31097,17 @@ angular.module('gitApp').factory('emojiService', [function(){
     "output": "1f3ff"
   }
 ];
+
+  var emojiList = [];
+
+_emojiList.forEach(function(emoji){
+  if(unsupported.includes(emoji.output)){
+    emoji.unsupported = true;
+  }else{
+    emojiList.push(emoji);
+  }
+});
+
 
     var factory = {
         emojiList: emojiList,
