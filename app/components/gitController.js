@@ -1,4 +1,4 @@
-angular.module('gitApp').controller('gitHubController', ['$scope', function($scope) {
+angular.module('gitApp').controller('gitHubController', ['$scope', 'emojiService', function($scope, emojiService) {
 
 $scope.popoverEmoji = {
 	templateUrl: 'components/emojiPopover.html',
@@ -8,7 +8,34 @@ $scope.popoverEmoji = {
   $scope.cb = function(emoji){
 	    insertText(emoji, "emojiInput");
   }
-  
+
+  var re = new RegExp(/\:[A-Za-z0-9]+/g);
+  $scope.emojiList = emojiService.emojiList;
+  $scope.emojisToDisplay = [];
+  $scope.convert = emojiService.convert;
+
+  function filterByShortname(value){
+	if(value.shortname.includes($scope.myElement)){
+		return true;
+	}
+  }
+
+  $scope.searchForEmojis = function(){
+	
+	if($scope.searchingForShortcut !== undefined){
+		$scope.myElement = $scope.searchingForShortcut.match(re);
+		console.log($scope.myElement);
+
+		$scope.emojisToDisplay = $scope.emojiList.filter(filterByShortname);
+
+		console.log($scope.emojisToDisplay);	
+		
+	}
+	
+	
+	
+  };
+
   function insertText(text, id) {
 
 	var input = document.getElementById(id);
