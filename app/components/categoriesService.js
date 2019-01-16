@@ -10,8 +10,20 @@ var emojiCategories =
 {"order":7,"category":"symbols","category_label":"Symbols", "icon": "1f9e1"},
 {"order":8,"category":"flags","category_label":"Flags", "icon": "1f3f4" }];
 
+
+var tonesCategories = 
+[
+    {name: "tone1", icon: "1f3fb"},
+    {name: "tone2", icon: "1f3fc"},
+    {name: "tone3", icon: "1f3fd"},
+    {name: "tone4", icon: "1f3fe"},
+    {name: "tone5", icon: "1f3ff"}
+];
+
 var factory = {
-    emojiCategories: emojiCategories
+    emojiCategories: emojiCategories,
+    tonesCategories: tonesCategories
+
 };
 
 return factory;

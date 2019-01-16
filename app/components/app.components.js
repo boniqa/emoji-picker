@@ -1,24 +1,31 @@
 angular.module('gitApp')
 .component('emoji', {
+    bindings: {
+        callback: '&'
+     },
     controller: [ "emojiService", "categoriesService", "localStorageService", 
         
         function (emojiService, categoriesService, localStorageService){
-            var toSaveEmojis = [];
+            
             var ctrl = this;
             ctrl.recentlyUsedEmojis = [];
-            
+            ctrl.recently = true;
+
             ctrl.$onInit = function(){
                 
                 ctrl.recentlyUsedEmojis = localStorageService.getObject("recent-emojis") || [];
-                toSaveEmojis = localStorageService.getObject("recent-emojis") || [];
+
+                if (ctrl.recentlyUsedEmojis < 1 || ctrl.recentlyUsedEmojis == undefined){
+                    ctrl.recently = false;
+                }
+                // toSaveEmojis = localStorageService.getObject("recent-emojis") || [];
                 
                 // console.log('resent emojis uploaded', ctrl.recentlyUsedEmojis);
             };
 
             ctrl.$onDestroy = function(){
               
-                
-                localStorageService.setObject("recent-emojis", toSaveEmojis.slice(0,9));
+                localStorageService.setObject("recent-emojis", ctrl.recentlyUsedEmojis.slice(0,9));
                 // console.log('Saved!', toSaveEmojis);           
 
             };
@@ -26,7 +33,9 @@ angular.module('gitApp')
             ctrl.emojiList = emojiService.emojiList;
             
             ctrl.emojiCategories = categoriesService.emojiCategories;
-            
+            ctrl.tonesCategories = categoriesService.tonesCategories;
+           
+
             ctrl.convert= function convert(unicode) {
                 if(unicode.indexOf("-") > -1) {
                     var parts = [];
@@ -61,14 +70,14 @@ angular.module('gitApp')
             ctrl.pickEmoji = function(code){
                 var emoji = ctrl.convert(code);
                 
-                if (!toSaveEmojis.includes(code)){
-                    toSaveEmojis.unshift(code);
+                if (!ctrl.recentlyUsedEmojis.includes(code)){
+                    ctrl.recentlyUsedEmojis.unshift(code);
                 }
-                // console.log(ctrl.recentlyUsedEmojis);
-                insertText(emoji, "emojiInput");                
+                // insertText(emoji, "emojiInput");
+                
+                    ctrl.callback({value: emoji});   
                 
             };
-    
 
             ctrl.emojiToDisplay = 200;       
 
@@ -81,44 +90,44 @@ angular.module('gitApp')
               };
 
          
-            function insertText(text, id) {
+            // function insertText(text, id) {
 
-                var input = document.getElementById(id);
-                if (input === undefined) { return; }
+            //     var input = document.getElementById(id);
+            //     if (input === undefined) { return; }
             
-                var scrollPos = input.scrollTop;
-                var pos = 0;
-                var browser = ((input.selectionStart || input.selectionStart == "0") ?
-                               "ff" : (document.selection ? "ie" : false));
-                if (browser == "ie") {
-                    input.focus();
-                    var range = document.selection.createRange();
-                    range.moveStart("character", -input.value.length);
-                    pos = range.text.length;
-                }
-                else if (browser == "ff") {
-                    pos = input.selectionStart;
-                }
-                var front = (input.value).substring(0, pos);
-                var back = (input.value).substring(pos, input.value.length);
-                input.value = front + text + back;
-                pos = pos + text.length;
-                if (browser == "ie") {
-                    input.focus();
-                    var range = document.selection.createRange();
-                    range.moveStart("character", -input.value.length);
-                    range.moveStart("character", pos);
-                    range.moveEnd("character", 0);
-                    range.select();
-                }
-                else if (browser == "ff") {
-                    input.selectionStart = pos;
-                    input.selectionEnd = pos;
-                    input.focus();
-                }
-                input.scrollTop = scrollPos;
-                angular.element(input).trigger('input');
-            }
+            //     var scrollPos = input.scrollTop;
+            //     var pos = 0;
+            //     var browser = ((input.selectionStart || input.selectionStart == "0") ?
+            //                    "ff" : (document.selection ? "ie" : false));
+            //     if (browser == "ie") {
+            //         input.focus();
+            //         var range = document.selection.createRange();
+            //         range.moveStart("character", -input.value.length);
+            //         pos = range.text.length;
+            //     }
+            //     else if (browser == "ff") {
+            //         pos = input.selectionStart;
+            //     }
+            //     var front = (input.value).substring(0, pos);
+            //     var back = (input.value).substring(pos, input.value.length);
+            //     input.value = front + text + back;
+            //     pos = pos + text.length;
+            //     if (browser == "ie") {
+            //         input.focus();
+            //         var range = document.selection.createRange();
+            //         range.moveStart("character", -input.value.length);
+            //         range.moveStart("character", pos);
+            //         range.moveEnd("character", 0);
+            //         range.select();
+            //     }
+            //     else if (browser == "ff") {
+            //         input.selectionStart = pos;
+            //         input.selectionEnd = pos;
+            //         input.focus();
+            //     }
+            //     input.scrollTop = scrollPos;
+            //     angular.element(input).trigger('input');
+            // }
 
         }
     

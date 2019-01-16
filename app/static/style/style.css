@@ -5,10 +5,14 @@ body{
 }
 .emoji {
   font-size: 14px;
-  padding: 2px;
+  /* padding: 2px; */
   cursor: pointer;
 }
-
+.smiley{
+  width: 20px;
+  height: auto;
+  cursor: pointer;
+}
 #parent{
   margin-top: 10px;
   overflow-y:scroll;
@@ -40,7 +44,7 @@ body{
 
 .emoji-picker{
   width: 230px; 
-  height: 350px; 
+  /* height: 350px;  */
   margin: 10px;
   
 }

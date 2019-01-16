@@ -5,25 +5,33 @@
       <input ng-model="$ctrl.searchText.keyWords" placeholder="Find an emoji..." class="form-control input-sm ">
   </div>
 
-  <div class="recently-used">
+  <div class="recently-used" ng-if="$ctrl.recently">
     <p>Recently used</p>
-      <span ng-repeat="emoji in $ctrl.recentlyUsedEmojis" class= "emoji" ng-click="$ctrl.pickEmoji(emoji)">
+      <span ng-repeat="emoji in $ctrl.recentlyUsedEmojis | limitTo:10" class= "emoji" ng-click="$ctrl.pickEmoji(emoji)">
         {{$ctrl.convert(emoji)}}
       </span>
   </div>
 
   <div class="emoji-categories">
       <p>Categories</p>
-      <span ng-repeat="cat in $ctrl.emojiCategories" class="emoji" ng-click="$ctrl.searchText.category= cat.category; $ctrl.searchText.keyWords ='' ">
+      <span ng-repeat="cat in $ctrl.emojiCategories" class="emoji" ng-click="$ctrl.searchText.category= cat.category; $ctrl.searchText.keyWords ='' ;  $ctrl.searchText.shortname ='' ">
         {{$ctrl.convert(cat.icon)}}
       </span>
-      <span ng-click="$ctrl.searchText.category = ''" > All </span>
+      <span ng-click="$ctrl.searchText.category = ''; $ctrl.searchText.shortname = ''" > All </span>
+  </div>
+
+  <div class="emoji-skin-tones">
+      <p>Skin tones</p>
+      <span ng-repeat="tone in $ctrl.tonesCategories" class="emoji" ng-click="$ctrl.searchText.shortname= tone.name; $ctrl.searchText.keyWords ='' ">
+        {{$ctrl.convert(tone.icon)}}
+      </span>
+      <!-- <span ng-click="$ctrl.searchText.shortname = ''" > All </span> -->
   </div>
 
 
   <div id="parent" class="emoji-display">
     <div infinite-scroll-container="'#parent'" infinite-scroll="$ctrl.loadMore()" infinite-scroll-disabled= "stopLoading" infinite-scroll-distance="0" infinite-scroll-parent="true" >
-      <span ng-repeat='emoji in filteredArray = $ctrl.emojiList | filter:$ctrl.searchText | limitTo:$ctrl.emojiToDisplay' class="emoji" ng-click="$ctrl.pickEmoji(emoji.output)">
+      <span ng-repeat="emoji in filteredArray = $ctrl.emojiList | filter:$ctrl.searchText | limitTo:$ctrl.emojiToDisplay | filter: '!'+('skin tone')" title="{{emoji.shortname}}" class="emoji" ng-click="$ctrl.pickEmoji(emoji.output)">
         {{$ctrl.convert(emoji.output)}}
       </span>
   </div>
