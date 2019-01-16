@@ -30,7 +30,7 @@
 
   <div id="parent" class="emoji-display">
     <div infinite-scroll-container="'#parent'" infinite-scroll="$ctrl.loadMore()" infinite-scroll-disabled= "stopLoading" infinite-scroll-distance="0" infinite-scroll-parent="true" >
-      <span ng-repeat="emoji in filteredArray = $ctrl.emojiList | filter:$ctrl.searchText | limitTo:$ctrl.emojiToDisplay | filter: '!'+('skin tone')" title="{{emoji.shortname}}" class="emoji" ng-click="$ctrl.pickEmoji(emoji.output)">
+      <span ng-repeat="emoji in filteredArray = $ctrl.emojiList | filter:$ctrl.searchText | limitTo:$ctrl.emojiToDisplay" title="{{emoji.shortname}}" class="emoji" ng-click="$ctrl.pickEmoji(emoji.output)">
         {{$ctrl.convert(emoji.output)}}
       </span>
   </div>

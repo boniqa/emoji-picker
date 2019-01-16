@@ -1,4 +1,4 @@
-angular.module('gitApp').factory('categoriesService', [function(){
+angular.module('gitApp').factory('categoriesService', ["$window",function($window){
 
 var emojiCategories = 
 [{"order":1,"category":"people","category_label":"Smileys & People", "icon": "1f603"},
@@ -8,8 +8,11 @@ var emojiCategories =
 {"order":5,"category":"travel","category_label":"Travel & Places", "icon": "1f697"},
 {"order":6,"category":"objects","category_label":"Objects", "icon": "1f4a1"},
 {"order":7,"category":"symbols","category_label":"Symbols", "icon": "1f9e1"},
-{"order":8,"category":"flags","category_label":"Flags", "icon": "1f3f4" }];
+/*{"order":8,"category":"flags","category_label":"Flags", "icon": "1f3f4" }*/];
 
+if($window.navigator.platform !== "Win32"){
+    emojiCategories.push({"order":8,"category":"flags","category_label":"Flags", "icon": "1f3f4" });
+}
 
 var tonesCategories = 
 [
