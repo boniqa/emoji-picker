@@ -7,15 +7,14 @@
       <input ng-keyup="searchForEmojis()" type="text" id="emojiInput" class="form-control" ng-model="searchingForShortcut">
       <div class="picking-emojis" id="emoji-menu" ng-if="toDisplay">
         <p>Emoji matching:</p>
-          <li class="emoji-list" ng-repeat="emoji in emojisToDisplay |limitTo:15" >
-              <p  ng-click="pickEmoji(emoji.output)" class="list-element" tabindex="0" ng-keydown="keyDown($event.keyCode, emoji.output)">
-                  <span title="{{emoji.shortname}}" class="emoji">
-                      {{convert(emoji.output)}} 
-                    </span>
-                    {{emoji.shortname}}
-              </p> 
-          </li>
-         
+          <div>
+                  <span  ng-repeat="emoji in emojisToDisplay | limitTo:40"  ng-click="pickEmoji(emoji.output)" class="list-element" tabindex="0" ng-keydown="keyDown($event.keyCode, emoji.output)">
+                      <span title="{{emoji.shortname}}" class="emoji">
+                          {{convert(emoji.output)}} 
+                        </span>
+                        {{emoji.shortname}}
+                  </span> 
+          </div>
         </div>
     </form>
 

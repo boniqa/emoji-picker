@@ -79,19 +79,22 @@ li.ng-scope a{
 .picking-emojis{
   background-color: #f2f2f2;
   border: 1px solid #dadada;
-  width: 200px;
+  width: 700px;
   border-radius: 0px 0px 5px 5px;
   margin-left: 5px;
   position: absolute
 }
-
-.emoji-list{
-  list-style-type: none;
+.picking-emojis span {
+  font-size: 12px;
 }
+/* .emoji-list{
+  list-style-type: none;
+} */
 .list-element{
   cursor: pointer;
   padding-top: 3px;
   padding-bottom: 3px;
+  display: inline-table;
 }
 .list-element:hover{
   background-color: #acacac;
