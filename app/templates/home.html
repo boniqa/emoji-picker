@@ -4,11 +4,11 @@
   
     <form action=""> 
     </br>
-      <input ng-keydown="searchForEmojis()" type="text" id="emojiInput" class="form-control" ng-model="searchingForShortcut" ></br>
+      <input ng-keyup="searchForEmojis()" type="text" id="emojiInput" class="form-control" ng-model="searchingForShortcut" ></br>
     </form>
 
     <div class="container">
-      <span ng-repeat="emoji in emojisToDisplay ">
+      <span ng-repeat="emoji in emojisToDisplay" title="{{emoji.shortname}}" class="emoji" ng-click="pickEmoji(emoji.output)">
         {{convert(emoji.output)}}
       </span>
     </div>

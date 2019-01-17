@@ -9,7 +9,7 @@ $scope.popoverEmoji = {
 	    insertText(emoji, "emojiInput");
   }
 
-  var re = new RegExp(/\:[A-Za-z0-9]+/g);
+  var re = new RegExp(/\:[A-Za-z0-9\_]+/g);
   $scope.emojiList = emojiService.emojiList;
   $scope.emojisToDisplay = [];
   $scope.convert = emojiService.convert;
@@ -28,13 +28,24 @@ $scope.popoverEmoji = {
 
 		$scope.emojisToDisplay = $scope.emojiList.filter(filterByShortname);
 
-		console.log($scope.emojisToDisplay);	
+		// console.log($scope.emojisToDisplay);	
 		
 	}
 	
-	
-	
   };
+
+  $scope.pickEmoji = function(code){
+	var emoji = $scope.convert(code);
+	
+	insertText(emoji, "emojiInput");
+	var input = document.getElementById("emojiInput");
+	jo = input.value.replace($scope.myElement, '');
+	input.value = jo;
+	
+	
+	$scope.myElement = [];
+	
+	};
 
   function insertText(text, id) {
 
