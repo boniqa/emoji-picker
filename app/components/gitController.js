@@ -42,6 +42,13 @@ $scope.popoverEmoji = {
 	
   };
 
+  $scope.keyDown = function(keyPress, code){
+	  if(keyPress == 13){
+		  $scope.pickEmoji(code);
+	  }
+	  
+  }
+
   $scope.pickEmoji = function(code){
 	var emoji = $scope.convert(code);
 	

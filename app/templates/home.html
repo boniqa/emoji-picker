@@ -8,7 +8,7 @@
       <div class="picking-emojis" ng-if="toDisplay">
         <p>Emoji matching:</p>
           <li class="emoji-list" ng-repeat="emoji in emojisToDisplay |limitTo:15" >
-              <p  ng-click="pickEmoji(emoji.output)" class="list-element" >
+              <p  ng-click="pickEmoji(emoji.output)" class="list-element" tabindex="0" ng-keydown="keyDown($event.keyCode, emoji.output)">
                   <span title="{{emoji.shortname}}" class="emoji">
                       {{convert(emoji.output)}} 
                     </span>
