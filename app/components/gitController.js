@@ -11,27 +11,42 @@ $scope.popoverEmoji = {
 
   $scope.isClosed = true;
 
-  var re = new RegExp(/\:[A-Za-z0-9\_]+/g);
+  var re = new RegExp(/\:[A-Za-z0-9\_\:]+/g);
   $scope.emojiList = emojiService.emojiList;
   $scope.emojisToDisplay = [];
   $scope.convert = emojiService.convert;
   $scope.toDisplay = false;
 
-  function filterByShortname(value){
-	if(value.shortname.includes($scope.myElement)){
-		return true;
+  function filterByShortname(value){	  
+	if($scope.myElement !== null){
+		if(value.shortname === $scope.myElement[0]){
+			$scope.pickEmoji(value.output);
+			$scope.toDisplay = false;
+			$scope.$apply();
+		} else if(value.shortname.includes($scope.myElement)){
+			return true;
+		}
 	}
+	
   }
 
   $scope.searchForEmojis = function(){
 	
 	if($scope.searchingForShortcut !== undefined){
 		$scope.myElement = $scope.searchingForShortcut.match(re);
-		// console.log($scope.myElement);
+		// console.log($scope.myElement[0]);
 		
 		$scope.emojisToDisplay = $scope.emojiList.filter(filterByShortname);
+		
 		if ($scope.emojisToDisplay.length > 0){
 			$scope.toDisplay = true;
+
+			window.addEventListener("click", function() {
+				$scope.myElement = [];
+				$scope.toDisplay = false;
+				$scope.$apply();
+				
+			});
 		}
 		else{
 			$scope.toDisplay = false;
@@ -41,6 +56,10 @@ $scope.popoverEmoji = {
 	}
 	
   };
+
+//   var listener =  
+
+// listener();
 
   $scope.keyDown = function(keyPress, code){
 	  if(keyPress == 13){
@@ -52,15 +71,17 @@ $scope.popoverEmoji = {
   $scope.pickEmoji = function(code){
 	var emoji = $scope.convert(code);
 	
-	insertText(emoji, "emojiInput");
+	//insertText(emoji, "emojiInput");
 	var input = document.getElementById("emojiInput");
-	jo = input.value.replace($scope.myElement, '');
+	jo = input.value.replace($scope.myElement, emoji);
 	input.value = jo;
 	
 	$scope.myElement = [];
 	$scope.toDisplay = false;
 	
 	};
+
+	
 
   function insertText(text, id) {
 
