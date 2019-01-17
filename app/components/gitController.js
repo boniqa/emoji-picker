@@ -9,10 +9,13 @@ $scope.popoverEmoji = {
 	    insertText(emoji, "emojiInput");
   }
 
+  $scope.isClosed = true;
+
   var re = new RegExp(/\:[A-Za-z0-9\_]+/g);
   $scope.emojiList = emojiService.emojiList;
   $scope.emojisToDisplay = [];
   $scope.convert = emojiService.convert;
+  $scope.toDisplay = false;
 
   function filterByShortname(value){
 	if(value.shortname.includes($scope.myElement)){
@@ -24,10 +27,15 @@ $scope.popoverEmoji = {
 	
 	if($scope.searchingForShortcut !== undefined){
 		$scope.myElement = $scope.searchingForShortcut.match(re);
-		console.log($scope.myElement);
-
+		// console.log($scope.myElement);
+		
 		$scope.emojisToDisplay = $scope.emojiList.filter(filterByShortname);
-
+		if ($scope.emojisToDisplay.length > 0){
+			$scope.toDisplay = true;
+		}
+		else{
+			$scope.toDisplay = false;
+		}
 		// console.log($scope.emojisToDisplay);	
 		
 	}
@@ -42,8 +50,8 @@ $scope.popoverEmoji = {
 	jo = input.value.replace($scope.myElement, '');
 	input.value = jo;
 	
-	
 	$scope.myElement = [];
+	$scope.toDisplay = false;
 	
 	};
 
