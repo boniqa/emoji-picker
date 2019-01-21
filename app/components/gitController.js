@@ -10,7 +10,7 @@ $scope.popoverEmoji = {
   }
 
   $scope.isClosed = true;
-
+  
   var re = new RegExp(/\:[A-Za-z0-9\_\:]+/g);
   $scope.emojiList = emojiService.emojiList;
   $scope.emojisToDisplay = [];
@@ -30,20 +30,29 @@ $scope.popoverEmoji = {
 	
   }
 
-  $scope.searchForEmojis = function(){
-	
+  
+  
+  
+
+  $scope.searchForEmojis = function($event){
+
+	$scope.focusOffset = $event.target.selectionStart;
 	if($scope.searchingForShortcut !== undefined){
 		$scope.myElement = $scope.searchingForShortcut.match(re);
 		// console.log($scope.myElement[0]);
 		
 		$scope.emojisToDisplay = $scope.emojiList.filter(filterByShortname);
+
+		
 		
 		if ($scope.emojisToDisplay.length > 0){
 			$scope.toDisplay = true;
 
 			window.addEventListener("click", function() {
+				// $scope.closePicker();
 				$scope.myElement = [];
 				$scope.toDisplay = false;
+				$scope.currentIndex = 0;
 				$scope.$apply();
 				
 			});
@@ -57,31 +66,63 @@ $scope.popoverEmoji = {
 	
   };
 
-//   var listener =  
+$scope.closePicker = function(){
+	$scope.myElement = [];
+	$scope.currentIndex = 0;
+	$scope.toDisplay = false;
+	$scope.$applyAsync();
+}
 
-// listener();
+  $scope.currentIndex = 0;
 
-  $scope.keyDown = function(keyPress, code){
-	  if(keyPress == 13){
-		  $scope.pickEmoji(code);
+  $scope.keyDown = function(keyPress){
+	  if(keyPress == 9 || keyPress == 39){
+		  $scope.currentIndex++;
+		  $scope.pickEmoji($scope.emojisToDisplay[$scope.currentIndex].output);
+	  }
+	  else if(keyPress == 37){
+		  $scope.currentIndex--;
+		  $scope.pickEmoji($scope.emojisToDisplay[$scope.currentIndex].output);
+	  }
+	  else if(keyPress == 13){
+		  $scope.pickEmoji($scope.emojisToDisplay[$scope.currentIndex].output);
+		
+		$scope.myElement = [];
+		$scope.toDisplay = false;
+		//   document.getElementById("emojiInput").focus();
+		  
+		  
 	  }
 	  
   }
-
+  
   $scope.pickEmoji = function(code){
-	var emoji = $scope.convert(code);
+	var emoji = $scope.convert(code) + ' ';
 	
-	//insertText(emoji, "emojiInput");
+	// insertText(emoji, "emojiInput");
 	var input = document.getElementById("emojiInput");
-	jo = input.value.replace($scope.myElement, emoji);
-	input.value = jo;
+	var regex = new RegExp($scope.myElement[0], 'g');
+
+	var newVal = input.value.replace(regex, function(match, offset, string){
+		
+		if(offset + match.length === $scope.focusOffset){
+			return emoji;
+		}
+		return match;
+		});
+
+	$scope.focusOffset = $scope.focusOffset - ($scope.myElement[0].length - emoji.length);
+	$scope.myElement[0] = emoji;
 	
-	$scope.myElement = [];
-	$scope.toDisplay = false;
+	input.value = newVal;
+
 	
 	};
 
-	
+	$scope.pickCurrent = function(emojiIndex){
+		$scope.currentIndex = emojiIndex;
+		$scope.pickEmoji($scope.emojisToDisplay[$scope.currentIndex].output);
+	}	
 
   function insertText(text, id) {
 

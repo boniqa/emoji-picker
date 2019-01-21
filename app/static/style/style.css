@@ -95,14 +95,31 @@ li.ng-scope a{
   padding-top: 3px;
   padding-bottom: 3px;
   display: inline-table;
+  outline: none;
 }
-.list-element:hover{
+
+/* .list-element .current{
+  border-radius: 25px;
   background-color: #acacac;
+  outline: none;
+} */
+
+.current{
+  border-radius: 25px;
+  background-color: #acacac;
+  outline: none;
+}
+/* .list-element:hover{
+  border-radius: 25px;
+  background-color: #acacac;
+  outline: none;
 }
 .list-element:focus {
+  border-radius: 25px;
   background-color: #acacac;
   border: none;
-}
+  outline: none; 
+} */
 .avatar{
   height: auto;
   width: 40px;;
