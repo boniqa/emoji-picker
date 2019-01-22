@@ -31,11 +31,20 @@ $scope.popoverEmoji = {
   }
 
   
-  
+  $scope.stopEvent = function(event){
+	var keyPress = event.keyCode;
+	if($scope.toDisplay === true && (keyPress == 9 || keyPress == 39 || keyPress == 37)){
+		event.preventDefault();
+		event.stopPropagation();
+	}
+  }
   
 
   $scope.searchForEmojis = function($event){
-
+	var keyPress = $event.keyCode;
+	if($scope.toDisplay === true && (keyPress == 9 || keyPress == 39 || keyPress == 37)){
+		return;
+	}
 	$scope.focusOffset = $event.target.selectionStart;
 	if($scope.searchingForShortcut !== undefined){
 		$scope.myElement = $scope.searchingForShortcut.match(re);
@@ -58,7 +67,9 @@ $scope.popoverEmoji = {
 			});
 		}
 		else{
-			$scope.toDisplay = false;
+				$scope.myElement = [];
+				$scope.toDisplay = false;
+				$scope.currentIndex = 0;
 		}
 		// console.log($scope.emojisToDisplay);	
 		
@@ -72,14 +83,13 @@ $scope.closePicker = function(){
 	$scope.toDisplay = false;
 	$scope.$applyAsync();
 }
-
   $scope.currentIndex = 0;
 
   
   $scope.keyDown = function(keyPress){
 	  if($scope.toDisplay === true){
 		if(keyPress == 9 || keyPress == 39){
-			if($scope.currentIndex == $scope.emojisToDisplay.length -1){
+			if($scope.currentIndex == $scope.emojisToDisplay.length -1 || $scope.currentIndex == 39){
 				$scope.currentIndex = 0;
 				$scope.pickEmoji($scope.emojisToDisplay[$scope.currentIndex].output);
 			}
@@ -91,7 +101,7 @@ $scope.closePicker = function(){
 		}
 		else if(keyPress == 37){
 		  if($scope.currentIndex == 0){
-			  $scope.currentIndex = $scope.emojisToDisplay.length -1;
+			  $scope.currentIndex = $scope.emojisToDisplay.length > 40 ? 39 : $scope.emojisToDisplay.length -1;
 			  $scope.pickEmoji($scope.emojisToDisplay[$scope.currentIndex].output);
 		  }
 		  else{
