@@ -19,11 +19,11 @@ $scope.popoverEmoji = {
 
   function filterByShortname(value){	  
 	if($scope.myElement !== null){
-		if(value.shortname === $scope.myElement[0]){
+		if(value.shortname === $scope.myElement[$scope.elementIndex]){
 			$scope.pickEmoji(value.output);
 			$scope.toDisplay = false;
 			$scope.$apply();
-		} else if(value.shortname.includes($scope.myElement)){
+		} else if(value.shortname.includes($scope.myElement[$scope.elementIndex])){
 			return true;
 		}
 	}
@@ -33,23 +33,46 @@ $scope.popoverEmoji = {
   
   $scope.stopEvent = function(event){
 	var keyPress = event.keyCode;
-	if($scope.toDisplay === true && (keyPress == 9 || keyPress == 39 || keyPress == 37)){
+	if($scope.toDisplay === true && (keyPress == 9 || keyPress == 39 || keyPress == 37 || keyPress == 27)){
 		event.preventDefault();
 		event.stopPropagation();
 	}
   }
   
+  function checkOffset(){
+	var res = false;
+	if($scope.myElement){
+		var input = document.getElementById("emojiInput");
+		for(var elementIndex in $scope.myElement){
+			var element = $scope.myElement[elementIndex];
+			var offset = input.value.indexOf(element);
+			if($scope.focusOffset == offset + element.length){
+				$scope.elementIndex = elementIndex;
+				res = true;
+				break;
+			}
+		}
+	}
+	return res;
+  }
 
   $scope.searchForEmojis = function($event){
 	var keyPress = $event.keyCode;
 	if($scope.toDisplay === true && (keyPress == 9 || keyPress == 39 || keyPress == 37)){
 		return;
+	} else if (keyPress == 27){
+		return;
 	}
 	$scope.focusOffset = $event.target.selectionStart;
 	if($scope.searchingForShortcut !== undefined){
 		$scope.myElement = $scope.searchingForShortcut.match(re);
-		// console.log($scope.myElement[0]);
-		
+		//console.log($scope.myElement[0]);
+		if(!checkOffset()){
+			$scope.myElement = [];
+			$scope.toDisplay = false;
+			$scope.currentIndex = 0;
+			return;
+		}
 		$scope.emojisToDisplay = $scope.emojiList.filter(filterByShortname);
 
 		
@@ -88,6 +111,7 @@ $scope.closePicker = function(){
   
   $scope.keyDown = function(keyPress){
 	  if($scope.toDisplay === true){
+		  //enter and right-arrow
 		if(keyPress == 9 || keyPress == 39){
 			if($scope.currentIndex == $scope.emojisToDisplay.length -1 || $scope.currentIndex == 39){
 				$scope.currentIndex = 0;
@@ -99,6 +123,7 @@ $scope.closePicker = function(){
 			}
 			
 		}
+		//left arrow
 		else if(keyPress == 37){
 		  if($scope.currentIndex == 0){
 			  $scope.currentIndex = $scope.emojisToDisplay.length > 40 ? 39 : $scope.emojisToDisplay.length -1;
@@ -110,12 +135,20 @@ $scope.closePicker = function(){
 		  }
 			
 		}
+		//enter
 		else if(keyPress == 13){
 			$scope.pickEmoji($scope.emojisToDisplay[$scope.currentIndex].output);
 		  
 		  $scope.myElement = [];
 		  $scope.toDisplay = false;
-		  $scope.focusOnInput();
+		 
+			
+		}
+		//escape
+		else if(keyPress == 27){		  
+		  $scope.myElement = [];
+		  $scope.toDisplay = false;
+		  
 			
 		}
 	  }
@@ -128,7 +161,7 @@ $scope.closePicker = function(){
 	
 	// insertText(emoji, "emojiInput");
 	var input = document.getElementById("emojiInput");
-	var regex = new RegExp($scope.myElement[0], 'g');
+	var regex = new RegExp($scope.myElement[$scope.elementIndex], 'g');
 
 	var newVal = input.value.replace(regex, function(match, offset, string){
 		
@@ -138,11 +171,12 @@ $scope.closePicker = function(){
 		return match;
 		});
 
-	$scope.focusOffset = $scope.focusOffset - ($scope.myElement[0].length - emoji.length);
-	$scope.myElement[0] = emoji;
+	$scope.focusOffset = $scope.focusOffset - ($scope.myElement[$scope.elementIndex].length - emoji.length);
+	$scope.myElement[$scope.elementIndex] = emoji;
 	
 	input.value = newVal;
-	
+	input.selectionStart = $scope.focusOffset;
+	input.selectionEnd = $scope.focusOffset;
 	
 	};
 

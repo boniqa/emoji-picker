@@ -4,9 +4,12 @@
   
     <form action=""> 
     </br>
-      <input ng-keyup="searchForEmojis($event);" type="text" id="emojiInput" class="form-control" ng-model="searchingForShortcut" ng-keydown="keyDown($event.keyCode); stopEvent($event);">
+    </br>
+    </br>
+    </br>
+    <div class="emoji-autocomplete">
       <div class="picking-emojis" id="emoji-menu" ng-if="toDisplay">
-        <p>Emoji matching:</p>
+        <p id="picker-title">esc to dismiss</p>
           <div>
                   <span  ng-repeat="emoji in emojisToDisplay | limitTo:40"  ng-click="focusOnInput()" class="list-element" id='list-el' ng-class="{'current': $index === currentIndex }" ng-mouseenter = "pickCurrent($index)">
                       <span title="{{emoji.shortname}}" class="emoji">
@@ -16,6 +19,11 @@
                   </span> 
           </div>
         </div>
+  
+        <input ng-keyup="searchForEmojis($event);" type="text" id="emojiInput" class="form-control" ng-model="searchingForShortcut" ng-keydown="keyDown($event.keyCode); stopEvent($event);">
+       
+    </div>
+     
     </form>
 
 
