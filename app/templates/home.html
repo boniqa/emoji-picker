@@ -7,20 +7,12 @@
     </br>
     </br>
     </br>
+
     <div class="emoji-autocomplete">
-      <div class="picking-emojis" id="emoji-menu" ng-if="toDisplay">
-        <p id="picker-title">esc to dismiss</p>
-          <div class="picker-body">
-                  <span  ng-repeat="emoji in emojisToDisplay | limitTo:20"  ng-click="focusOnInput()" class="list-element" id='list-el' ng-class="{'current': $index === currentIndex }" ng-mouseenter = "pickCurrent($index)">
-                      <span title="{{emoji.shortname}}" class="emoji">
-                          {{convert(emoji.output)}} 
-                        </span>
-                        {{emoji.shortname}}
-                  </span> 
-          </div>
-        </div>
-  
-        <input ng-keyup="searchForEmojis($event);" type="text" id="emojiInput" class="form-control" ng-model="searchingForShortcut" ng-keydown="keyDown($event.keyCode); stopEvent($event);">
+
+        <emojiauto input="emojiInput" model="inputModel"></emojiauto>
+        
+        <input type="text" id="emojiInput" class="form-control" ng-model="inputModel" >
        
     </div>
      
