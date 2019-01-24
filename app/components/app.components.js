@@ -123,12 +123,12 @@ angular.module('gitApp')
             ctrl.toDisplay = false;
 
             function filterByShortname(value){	  
-                if(ctrl.myElement !== null){
-                    if(value.shortname === ctrl.myElement[ctrl.elementIndex]){
-                        ctrl.pickEmoji(value.output);
+                if(myElement !== null){
+                    if(value.shortname === myElement[ctrl.elementIndex]){
+                        pickEmoji(value.output);
                         ctrl.toDisplay = false;
                         $scope.$apply();
-                    } else if(value.shortname.includes(ctrl.myElement[ctrl.elementIndex])){
+                    } else if(value.shortname.includes(myElement[ctrl.elementIndex])){
                         return true;
                     }
                 }
@@ -144,10 +144,10 @@ angular.module('gitApp')
   
             function checkOffset(){
                 var correctPlasement = false;
-                if(ctrl.myElement){
+                if(myElement){
                     var input = document.getElementById(ctrl.input);
-                    for(var elementIndex in ctrl.myElement){
-                        var element = ctrl.myElement[elementIndex];
+                    for(var elementIndex in myElement){
+                        var element = myElement[elementIndex];
                         var offset = input.value.indexOf(element);
                         if(ctrl.focusOffset == offset + element.length){
                             ctrl.elementIndex = elementIndex;
@@ -159,6 +159,7 @@ angular.module('gitApp')
                 return correctPlasement;
             }
 
+            var myElement =[];
             function searchForEmojis($event){
                     var keyPress = $event.keyCode;
                     if(ctrl.toDisplay === true && (keyPress == 9 || keyPress == 39 || keyPress == 37)){
@@ -169,12 +170,12 @@ angular.module('gitApp')
                     ctrl.focusOffset = $event.target.selectionStart;
                     if(ctrl.myInput.value !== undefined){
                         //match list of elements from input with regex
-                        ctrl.myElement = ctrl.myInput.value.match(re);
-                        console.log(ctrl.myElement);
+                        myElement = ctrl.myInput.value.match(re);
+                        // console.log(myElement);
                         
                         //checking if cursor in input is at the end of an element from myElement list
                         if(!checkOffset()){
-                            ctrl.myElement = [];
+                            myElement = [];
                             ctrl.toDisplay = false;
                             ctrl.currentIndex = 0;
                             return;
@@ -186,7 +187,7 @@ angular.module('gitApp')
                             ctrl.toDisplay = true;
 
                             window.addEventListener("click", function() {
-                                ctrl.myElement = [];
+                                myElement = [];
                                 ctrl.toDisplay = false;
                                 ctrl.currentIndex = 0;
                                 $scope.$apply();
@@ -194,7 +195,7 @@ angular.module('gitApp')
                             });
                         }
                         else{
-                                ctrl.myElement = [];
+                                myElement = [];
                                 ctrl.toDisplay = false;
                                 ctrl.currentIndex = 0;
                         }
@@ -209,42 +210,42 @@ angular.module('gitApp')
 			if(keyPress == 9 || keyPress == 39){
 				if(ctrl.currentIndex == ctrl.emojisToDisplay.length -1 || ctrl.currentIndex == 19){
 					ctrl.currentIndex = 0;
-					ctrl.pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
+					pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
 				}
 				else{
 					ctrl.currentIndex++;
-					ctrl.pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
+					pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
 				}
 			}
 			//left arrow
 			else if(keyPress == 37){
 				if(ctrl.currentIndex == 0){
 					ctrl.currentIndex = ctrl.emojisToDisplay.length > 20 ? 19 : ctrl.emojisToDisplay.length -1;
-					ctrl.pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
+					pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
 				}
 				else{
 					ctrl.currentIndex--;
-					ctrl.pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
+					pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
 				}
 			}
 			//enter
 			else if(keyPress == 13){
-				ctrl.pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
-				ctrl.myElement = [];
+				pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
+				myElement = [];
 				ctrl.toDisplay = false;			
 			}
 			//escape
 			else if(keyPress == 27){		  
-				ctrl.myElement = [];
+				myElement = [];
 				ctrl.toDisplay = false; 
 			}
 	  }
 	  
   }
   
-  ctrl.pickEmoji = function(code){
+    function pickEmoji(code){
 		var emoji = ctrl.convert(code) + ' ';
-		var regex = new RegExp(ctrl.myElement[ctrl.elementIndex], 'g');
+		var regex = new RegExp(myElement[ctrl.elementIndex], 'g');
 		var newVal = ctrl.myInput.value.replace(regex, function(match, offset, string){
 			
 			if(offset + match.length === ctrl.focusOffset){
@@ -253,8 +254,8 @@ angular.module('gitApp')
 			return match;
 			});
 
-		ctrl.focusOffset = ctrl.focusOffset - (ctrl.myElement[ctrl.elementIndex].length - emoji.length);
-		ctrl.myElement[ctrl.elementIndex] = emoji;
+		ctrl.focusOffset = ctrl.focusOffset - (myElement[ctrl.elementIndex].length - emoji.length);
+		myElement[ctrl.elementIndex] = emoji;
 		ctrl.myInput.value = newVal;
 		ctrl.myInput.selectionStart = ctrl.focusOffset;
 		ctrl.myInput.selectionEnd = ctrl.focusOffset;
@@ -270,7 +271,7 @@ angular.module('gitApp')
 
 	ctrl.pickCurrent = function(emojiIndex){
 		ctrl.currentIndex = emojiIndex;
-		ctrl.pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
+		pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
 	}	
 	                      
         }
@@ -278,4 +279,88 @@ angular.module('gitApp')
     ],
     
     templateUrl: 'components/emojiAutocompleteTemplate.html'
+})
+.component('emojiTextArea', {
+    bindings: {
+        useAutocomplete: '<',
+        usePicker: '<',
+        pickerPlacement: '@',
+        onKeydown: '&',
+        onKeyup: '&'
+
+     },
+    controller: [  
+        
+        function (){
+            
+            var ctrl = this;
+            ctrl.keydown = function(event){
+                ctrl.onKeydown({event: event});
+            }
+            ctrl.keyup = function(event){
+                ctrl.onKeyup({event: event});
+            }
+            ctrl.$onInit = function(){          
+                // console.log(ctrl.useAutocomplete);
+                // console.log(ctrl.usePicker);
+
+                
+            };
+
+            ctrl.$onDestroy = function(){
+            };	
+
+            ctrl.popoverEmoji = {
+                templateUrl: 'components/emojiPopover.html',
+                isOpen: false
+              };                 
+
+            ctrl.cb = function(emoji){
+                insertText(emoji, "emojiInput");
+          }
+
+          
+          function insertText(text, id) {
+            var input = document.getElementById(id);
+            if (input === undefined) { return; }
+    
+            var scrollPos = input.scrollTop;
+            var pos = 0;
+            var browser = ((input.selectionStart || input.selectionStart == "0") ?
+                            "ff" : (document.selection ? "ie" : false));
+            if (browser == "ie") {
+                input.focus();
+                var range = document.selection.createRange();
+                range.moveStart("character", -input.value.length);
+                pos = range.text.length;
+            }
+            else if (browser == "ff") {
+                pos = input.selectionStart;
+            }
+            var front = (input.value).substring(0, pos);
+            var back = (input.value).substring(pos, input.value.length);
+            input.value = front + text + back;
+            pos = pos + text.length;
+            if (browser == "ie") {
+                input.focus();
+                var range = document.selection.createRange();
+                range.moveStart("character", -input.value.length);
+                range.moveStart("character", pos);
+                range.moveEnd("character", 0);
+                range.select();
+            }
+            else if (browser == "ff") {
+                input.selectionStart = pos;
+                input.selectionEnd = pos;
+                input.focus();
+            }
+            input.scrollTop = scrollPos;
+            angular.element(input).trigger('input');
+        }
+
+        }
+    
+    ],
+    
+    templateUrl: 'components/emojiTextAreaTemplate.html'
 })
