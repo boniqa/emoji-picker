@@ -3,12 +3,10 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 
-
 gulp.task('app', function(){
     return gulp.src([
         'app/app.js',
-        'app/components/*.js',
-        'app/components/app.components.js'
+        'app/components/**/**.js',
       
     ])
     .pipe(concat('app.js'))
@@ -23,7 +21,8 @@ gulp.task('vendor', function () {
         'bower_components/angular-animate/angular-animate.js',
         'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
         'app/assets/js/ng-table.min.js',
-        'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.js'            
+        'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.js',
+        'node_modules/angular-elastic/elastic.js'        
     ])
     .pipe(concat('vendor.js', { newLine: ';' }))
     .pipe(gulp.dest('app/build'))

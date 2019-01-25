@@ -1,4 +1,4 @@
-angular.module('gitApp').factory('categoriesService', [function(){
+angular.module('emoji-support').factory('categoriesService', [function(){
 
 var emojiCategories = 
 [{"order":1,"category":"people","category_label":"Smileys & People", "icon": "1f603"},

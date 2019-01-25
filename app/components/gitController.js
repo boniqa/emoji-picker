@@ -8,5 +8,5 @@ angular.module('gitApp').controller('gitHubController', ['$scope', function($sco
 		// console.log(event);
 		
 	}
-
+	
 }]);

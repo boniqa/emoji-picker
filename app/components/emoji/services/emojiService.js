@@ -1,4 +1,4 @@
-angular.module('gitApp').factory('emojiService', [function(){
+angular.module('emoji-support').factory('emojiService', [function(){
 
  var convert = function convert(unicode) {
   if(unicode.indexOf("-") > -1) {

@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
 
-    angular.module('gitApp')
+    angular.module('emoji-support')
 
         /**
          *

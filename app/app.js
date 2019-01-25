@@ -1,4 +1,4 @@
-angular.module( 'gitApp', ['ui.router', 'ngAnimate', 'ui.bootstrap','infinite-scroll']);
+angular.module( 'gitApp', ['ui.router', 'ngAnimate', 'ui.bootstrap','infinite-scroll', 'emoji-support']);
 
 angular.module('gitApp').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
@@ -13,3 +13,5 @@ angular.module('gitApp').config(['$stateProvider', '$urlRouterProvider', functio
      });
      
   }]);
+
+  angular.module('emoji-support',['monospaced.elastic']);
