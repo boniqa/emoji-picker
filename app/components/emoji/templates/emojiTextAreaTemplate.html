@@ -17,7 +17,7 @@
         </div>
 
         <div ng-class ="{'input-group': $ctrl.usePicker }" >
-            <textarea ng-keyup="$ctrl.keyup($event); $ctrl.searchForEmojis($event);" msd-elastic rows="2" ng-keypress="$ctrl.preventEnterOnOpen($event)" ng-keydown="$ctrl.keydown($event); $ctrl.keyDown($event.keyCode); $ctrl.stopEvent($event);" type="text" id="emojiInput" ng-model="$ctrl.model" class="form-control" aria-describedby="basic-addon2" autocomplete="off"></textarea>
+            <textarea ng-keyup="$ctrl.keyup($event); $ctrl.searchForEmojis($event);" msd-elastic rows="2" ng-keypress="$ctrl.keypress($event); $ctrl.preventEnterOnOpen($event)" ng-keydown="$ctrl.keydown($event); $ctrl.keyDown($event.keyCode); $ctrl.stopEvent($event);" type="text" id="emojiInput" ng-model="$ctrl.model" class="form-control" aria-describedby="basic-addon2" autocomplete="off"></textarea>
             <span  ng-if="$ctrl.usePicker" class="input-group-addon" id="basic-addon2">
                 <img src="./static/img/emoticon.svg" class="smiley" uib-popover-template="$ctrl.popoverEmoji.templateUrl" popover-placement="{{$ctrl.pickerPlacement}}" popover-trigger="'outsideClick'">
             </span>

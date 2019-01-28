@@ -6,15 +6,17 @@ angular.module('emoji-support')
         pickerPlacement: '@',
         onKeydown: '&',
         onKeyup: '&',
+        onKeypress: '&',
         model: '='
 
      },
-    controller: [  "emojiService", "$scope", 
+    controller: [  "emojiService", "$scope", "$element", "$timeout",
         
-        function (emojiService, $scope){
+        function (emojiService, $scope, $element, $timeout){
             
             var ctrl = this;
             var input;
+            var picker;
             
             ctrl.keydown = function(event){
                 ctrl.onKeydown({event: event});
@@ -22,17 +24,27 @@ angular.module('emoji-support')
             ctrl.keyup = function(event){
                 ctrl.onKeyup({event: event});
             }
+            ctrl.keypress = function(event){
+                ctrl.onKeypress({event: event});
+            }
+
             ctrl.$onInit = function(){          
                 
-                input = document.getElementById('emojiInput');
-                console.log(ctrl.model);
+                // picker = $element.find('.picking-emojis');
+                input = $element.find('#emojiInput').get(0);
                 
-                // console.log(ctrl.useAutocomplete);
-                // console.log(ctrl.usePicker);                
+                $timeout( function(){
+                    
+                    // console.log(input.value);
+                    // console.log(picker);
+
+                }, 0 );
+                // console.log(ctrl.model);
+                             
             };
 
             ctrl.$onDestroy = function(){
-
+                
             };	
 
             ctrl.popoverEmoji = {
@@ -41,12 +53,11 @@ angular.module('emoji-support')
             };                 
 
             ctrl.cb = function(emoji){
-                insertText(emoji, "emojiInput");
+                insertText(emoji);
             }
-
           
-            function insertText(text, id) {
-                var input = document.getElementById(id);
+            function insertText(text) {
+                
                 if (input === undefined) { return; }
         
                 var scrollPos = input.scrollTop;
@@ -116,20 +127,19 @@ angular.module('emoji-support')
             }
 
             function checkOffset(){
-                var correctPlasement = false;
+                var correctPlacement = false;
                 if(myElement){
-                    // var input = document.getElementById(ctrl.input);
                     for(var elementIndex in myElement){
                         var element = myElement[elementIndex];
                         var offset = ctrl.model.indexOf(element);
                         if(ctrl.focusOffset == offset + element.length){
                             ctrl.elementIndex = elementIndex;
-                            correctPlasement = true;
+                            correctPlacement = true;
                             break;
                         }
                     }
                 }
-                return correctPlasement;
+                return correctPlacement;
             }
 
             var myElement =[];
@@ -160,6 +170,9 @@ angular.module('emoji-support')
                         ctrl.toDisplay = true;
                         
                         var pickerHeight = input.style.height;
+                        // console.log(pickerHeight);
+
+                        //to change:
                         var picker = document.getElementsByClassName('picking-emojis')[0];
                         picker.style.bottom = pickerHeight;
                         
@@ -214,7 +227,7 @@ angular.module('emoji-support')
                     else if(keyPress == 13){
                         pickEmoji(ctrl.emojisToDisplay[ctrl.currentIndex].output);
                         myElement = [];
-                        ctrl.toDisplay = false;			
+                        ctrl.toDisplay = false;	
                     }
                     //escape
                     else if(keyPress == 27){		  
@@ -238,9 +251,11 @@ angular.module('emoji-support')
 
                 ctrl.focusOffset = ctrl.focusOffset - (myElement[ctrl.elementIndex].length - emoji.length);
                 myElement[ctrl.elementIndex] = emoji;
-                input.value = newVal;
+                ctrl.model = newVal;
+                input.value=  newVal;
                 input.selectionStart = ctrl.focusOffset;
                 input.selectionEnd = ctrl.focusOffset;
+                
                     
             };
 

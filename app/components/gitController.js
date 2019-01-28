@@ -9,6 +9,11 @@ angular.module('gitApp').controller('gitHubController', ['$scope', function($sco
 		
 	}
 
+	$scope.onKeypress = function(event){
+		// console.log(event);
+		
+	}
+
 	$scope.message = {text: "hello"};
 	
 }]);
