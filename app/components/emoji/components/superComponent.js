@@ -25,11 +25,14 @@ angular.module('emoji-support')
             ctrl.$onInit = function(){          
                 
                 input = document.getElementById('emojiInput');
+                console.log(ctrl.model);
+                
                 // console.log(ctrl.useAutocomplete);
                 // console.log(ctrl.usePicker);                
             };
 
             ctrl.$onDestroy = function(){
+
             };	
 
             ctrl.popoverEmoji = {

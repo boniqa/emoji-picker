@@ -2,8 +2,9 @@
 
   <h1 class="text-center">
     <!-- add on keypress !! -->
-    <emoji-text-area model="value" use-autocomplete='true' use-picker='true' picker-placement="bottom" on-keydown="onKeydown(event)" on-keyup="onKeyup(event)"></emoji-text-area>
-    <!-- {{value}} -->
+    <emoji-text-area model="message.text"  use-autocomplete='true' use-picker='true' picker-placement="bottom" on-keydown="onKeydown(event)" on-keyup="onKeyup(event)"></emoji-text-area>
+    
   </h1>
 
+  <pre> {{message.text}} </pre>
 </div>
