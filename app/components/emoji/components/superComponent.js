@@ -30,15 +30,9 @@ angular.module('emoji-support')
 
             ctrl.$onInit = function(){          
                 
-                // picker = $element.find('.picking-emojis');
-                input = $element.find('#emojiInput').get(0);
+                picker = $element.find('.picking-emojis').get(0);
+                input = $element.find('textarea').get(0);
                 
-                $timeout( function(){
-                    
-                    // console.log(input.value);
-                    // console.log(picker);
-
-                }, 0 );
                 // console.log(ctrl.model);
                              
             };
@@ -170,13 +164,9 @@ angular.module('emoji-support')
                         ctrl.toDisplay = true;
                         
                         var pickerHeight = input.style.height;
-                        // console.log(pickerHeight);
 
-                        //to change:
-                        var picker = document.getElementsByClassName('picking-emojis')[0];
                         picker.style.bottom = pickerHeight;
                         
-                        // dock
                         window.addEventListener("click", function() {
                             myElement = [];
                             ctrl.toDisplay = false;
