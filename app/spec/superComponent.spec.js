@@ -186,7 +186,8 @@ describe('emoji text area component', function () {
         value: '',
         focus: function(){
 
-        }
+        },
+        scrollTop : 0
     }
 
     beforeEach(module('emoji-support', function ($provide) {
@@ -312,7 +313,9 @@ describe('emoji text area component', function () {
     it('should pick emoji when hit enter', function(){
         var event = {
             keyCode: 69,
-            target: {selectionStart : 10}
+            target: {selectionStart : 10},
+            shiftKey: false,
+            preventDefault : function(){}
         }
         var keyPress = 13;
         controller.$onInit();
@@ -322,14 +325,18 @@ describe('emoji text area component', function () {
         expect(controller.toDisplay).toBeTruthy();
 
         controller.keyDown(keyPress);
+        event.keyCode = 13;
+        controller.preventEnterOnOpen(event);
         expect(controller.toDisplay).toBeFalsy();
         expect(controller.model).toBe('test 👃 ');
 
     })
     it('should change current emoji when tab or arrows and display current one', function(){
         var event = {
-            keyCode: 69,
-            target: {selectionStart : 8}
+            keyCode: 9,
+            target: {selectionStart : 8},
+            preventDefault : function(){},
+            stopPropagation : function(){}
         }
         var keyPress = 9;
         controller.$onInit();
@@ -340,6 +347,7 @@ describe('emoji text area component', function () {
         expect(controller.toDisplay).toBeTruthy();
 
         controller.keyDown(keyPress);
+        controller.stopEvent(event);
         expect(controller.toDisplay).toBeTruthy();
         expect(controller.model).toBe('test 🐛 ');
     })
@@ -407,5 +415,35 @@ describe('emoji text area component', function () {
         expect(controller.currentIndex).toBe(0);
     })    
 
+    it('should insert emoji to input', function(){
+        controller.$onInit();
+        input.selectionStart = 6;
+        
+        input.value = "tesst ";
+        emoji = '🦋';
+        controller.cb(emoji);
 
+        expect(input.value).toBe('tesst 🦋');
+
+    })
+
+    it('should close window when click outside', function(){
+        var event = {
+            keyCode: 69,
+            target: {selectionStart : 10}
+        }
+        var spyEvent = spyOnEvent(window, 'click');
+        controller.$onInit();
+        controller.model = "test :nose";
+        controller.searchForEmojis(event);
+
+        expect(controller.emojisToDisplay.length).toBe(6);
+        expect(controller.toDisplay).toBeTruthy();
+        
+        $(window).click();
+        expect('click').toHaveBeenTriggeredOn(window);
+        expect(spyEvent).toHaveBeenTriggered();
+        // expect(controller.toDisplay).toBeFalsy();
+
+    })
 });
