@@ -34,7 +34,7 @@ body{
   border-bottom: 1.5px solid #acacac;
  }
 
-#emojiInput{
+.emojiInput{
   font-size: 14px;
   /* max-height: 50px; */
 }

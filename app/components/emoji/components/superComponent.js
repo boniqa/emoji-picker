@@ -10,9 +10,9 @@ angular.module('emoji-support')
         model: '='
 
      },
-    controller: [  "emojiService", "$scope", "$element", "$timeout",
+    controller: [ "emojiService", "$scope", "$element", 
         
-        function (emojiService, $scope, $element, $timeout){
+        function (emojiService, $scope, $element){
             
             var ctrl = this;
             var input;
@@ -120,7 +120,7 @@ angular.module('emoji-support')
                 }
             }
 
-            function checkOffset(){
+            ctrl.checkOffset = function(){
                 var correctPlacement = false;
                 if(myElement){
                     for(var elementIndex in myElement){
@@ -137,7 +137,7 @@ angular.module('emoji-support')
             }
 
             var myElement =[];
-            ctrl.searchForEmojis = function($event){
+            ctrl.searchForEmojis = function($event){                
                 var keyPress = $event.keyCode;
                 if(ctrl.toDisplay === true && (keyPress == 9 || keyPress == 39 || keyPress == 37)){
                     return;
@@ -150,7 +150,7 @@ angular.module('emoji-support')
                     myElement = ctrl.model.match(re);
                     
                     //checking if cursor in input is at the end of an element from myElement list
-                    if(!checkOffset()){
+                    if(!ctrl.checkOffset()){
                         myElement = [];
                         ctrl.toDisplay = false;
                         ctrl.currentIndex = 0;

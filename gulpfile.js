@@ -22,7 +22,8 @@ gulp.task('vendor', function () {
         'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
         'app/assets/js/ng-table.min.js',
         'node_modules/ng-infinite-scroll/build/ng-infinite-scroll.js',
-        'node_modules/angular-elastic/elastic.js'        
+        'node_modules/angular-elastic/elastic.js',
+        'bower_components/jasmine-jquery/lib/jasmine-jquery.js'
     ])
     .pipe(concat('vendor.js', { newLine: ';' }))
     .pipe(gulp.dest('app/build'))

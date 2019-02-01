@@ -18,17 +18,19 @@ module.exports = function(config) {
       'app/build/vendor.js',
       //files to be tested
       'app/app.js',
-      'app/components/CommitController.js',
+      'app/components/emoji/components/emojiPopoverComponent.js',
+      'app/components/emoji/components/superComponent.js',
       'app/components/gitController.js',
-      'app/components/ReleaseController.js',
-      'app/components/repoService.js',
-      'app/components/app.components.js',
-
+      'app/components/emoji/services/categoriesService.js',
+      'app/components/emoji/services/emojiService.js',
+      'app/components/emoji/services/localStorageService.js',
+     
       //pull in angular mocks
 
       'node_modules/angular-mocks/angular-mocks.js',
       //helpers
       'app/spec/helpers/*.js',
+      'app/spec/javascripts/fixtures/fixture.html',
       //tests
       'app/spec/*.spec.js',
 
@@ -36,6 +38,12 @@ module.exports = function(config) {
       // 'templates/commits.html',
       // 'templates/home.html',
       // 'templates/release.html'
+      {
+        pattern: 'app/spec/javascripts/fixtures/*.html',
+        watched: true,
+        served: true,
+        included: false
+      }
 
     ],
 
@@ -50,7 +58,8 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'app/*.js': ['coverage'],
-      'app/components/*.js' : ['coverage']
+      'app/components/emoji/**/**.js' : ['coverage'],
+      
     },
 
 
@@ -72,7 +81,7 @@ module.exports = function(config) {
     },
 
     // web server port
-    port: 9876,
+    port: 9800,
 
 
     // enable / disable colors in the output (reporters and logs)

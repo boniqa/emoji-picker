@@ -1,0 +1,24 @@
+<div class="emoji-autocomplete">
+        
+    <div ng-show="$ctrl.useAutocomplete">
+        <div class="picking-emojis" id="emoji-menu" ng-show="$ctrl.toDisplay">
+            <p id="picker-title">esc to dismiss</p>
+            <div class="picker-body">
+                <span  ng-repeat="emoji in $ctrl.emojisToDisplay | limitTo:20"  ng-click="$ctrl.focusOnInput()" class="list-element" id='list-el' ng-class="{'current': $index === $ctrl.currentIndex }" ng-mouseenter = "$ctrl.pickCurrent($index)">
+                <span title="{{emoji.shortname}}" class="emoji">
+                        {{$ctrl.convert(emoji.output)}}
+                </span>
+                {{emoji.shortname}}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div ng-class ="{'input-group': $ctrl.usePicker }" >
+        <textarea ng-keyup="$ctrl.keyup($event); $ctrl.searchForEmojis($event);" msd-elastic rows="2" ng-keypress="$ctrl.keypress($event); $ctrl.preventEnterOnOpen($event)" ng-keydown="$ctrl.keydown($event); $ctrl.keyDown($event.keyCode); $ctrl.stopEvent($event);" type="text" ng-model="$ctrl.model" class="form-control emojiInput" aria-describedby="basic-addon2" autocomplete="off"></textarea>
+        <span  ng-if="$ctrl.usePicker" class="input-group-addon" id="basic-addon2">
+            <img src="" class="smiley" uib-popover-template="$ctrl.popoverEmoji.templateUrl" popover-placement="{{$ctrl.pickerPlacement}}" popover-trigger="'outsideClick'">
+        </span>
+    </div>
+
+</div>
